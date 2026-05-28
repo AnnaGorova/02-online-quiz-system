@@ -1,25 +1,29 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}QuizMaster{% endblock %}</title>
+    <title>{% block title %}Quiz{% endblock %}</title>
+    
+    {% load static %}
     <link rel="stylesheet" href="{% static 'quizzes/css/style.css' %}">
+    {% block extra_css %}
+    {% endblock %}
 </head>
 <body>
-    {% include 'quizzes/includes/navbar.html' %}
+   
 
     <div class="container">
         {% if messages %}
             {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                <div class="message message-{{ message.tags }}">{{ message }}</div>
             {% endfor %}
         {% endif %}
 
         {% block content %}{% endblock %}
     </div>
-
-    {% include 'quizzes/includes/footer.html' %}
+    
+    <script src="{% static 'quizzes/js/main.js' %}"></script>
+    {% block  extra_js%}{% endblock  %}
 </body>
 </html>
