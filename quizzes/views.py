@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from .models import Quiz, Question, Answer, QuizResult
-from .forms import QuizForm, UsernameForm
+from .forms import  UsernameForm
 
 
 def index(request):
@@ -82,80 +82,18 @@ def result(request, result_id):
 
 
 def history(request):
-    """Історія проходжень"""
+    """Історія проходжень - показує всі результати, з можливістю фільтрації"""
+    # Беремо ВСІ результати, сортуємо від нових до старих
+    results = QuizResult.objects.all().order_by('-date')
+    
+    # Фільтр пошуку (опціонально)
     username = request.GET.get('username', '')
-    results = []
-
     if username:
-        results = QuizResult.objects.filter(username__icontains=username)
-
+        results = results.filter(username__icontains=username)
+    
     return render(request, 'quizzes/history.html', {
         'results': results,
         'search_username': username
     })
 
 
-def admin_panel(request):
-    """Адмінпанель для створення квізів, питань, відповідей"""
-    quizzes = Quiz.objects.all()
-    questions = Question.objects.all()
-    quiz_form = QuizForm()
-
-    # Створення квізу
-    if request.method == 'POST' and 'create_quiz' in request.POST:
-        form = QuizForm(request.POST)
-        if form.is_valid():
-            quiz = form.save()
-            messages.success(request, f'Квіз "{quiz.title}" успішно створено!')
-            return redirect('admin_panel')
-        else:
-            messages.error(request, 'Помилка при створенні квізу')
-
-    # Створення питання
-    if request.method == 'POST' and 'create_question' in request.POST:
-        quiz_id = request.POST.get('quiz_id')
-        question_text = request.POST.get('question_text')
-
-        if quiz_id and question_text:
-            quiz = Quiz.objects.get(id=quiz_id)
-            Question.objects.create(quiz=quiz, text=question_text)
-            messages.success(request, 'Питання додано!')
-            return redirect('admin_panel')
-        else:
-            messages.error(request, 'Заповніть всі поля')
-
-    # Створення відповіді
-    if request.method == 'POST' and 'create_answer' in request.POST:
-        question_id = request.POST.get('question_id')
-        answer_text = request.POST.get('answer_text')
-        is_correct = request.POST.get('is_correct') == 'on'
-
-        if question_id and answer_text:
-            question = Question.objects.get(id=question_id)
-            Answer.objects.create(question=question, text=answer_text, is_correct=is_correct)
-            messages.success(request, 'Відповідь додано!')
-            return redirect('admin_panel')
-        else:
-            messages.error(request, 'Заповніть текст відповіді')
-
-    # Видалення квізу
-    if request.method == 'POST' and 'delete_quiz' in request.POST:
-        quiz_id = request.POST.get('quiz_id')
-        if quiz_id:
-            Quiz.objects.filter(id=quiz_id).delete()
-            messages.success(request, 'Квіз видалено!')
-            return redirect('admin_panel')
-
-    # Видалення питання
-    if request.method == 'POST' and 'delete_question' in request.POST:
-        question_id = request.POST.get('question_id')
-        if question_id:
-            Question.objects.filter(id=question_id).delete()
-            messages.success(request, 'Питання видалено!')
-            return redirect('admin_panel')
-
-    return render(request, 'quizzes/admin_panel.html', {
-        'quizzes': quizzes,
-        'questions': questions,
-        'quiz_form': quiz_form,
-    })

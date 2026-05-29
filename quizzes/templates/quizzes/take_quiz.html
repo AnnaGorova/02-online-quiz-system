@@ -1,0 +1,27 @@
+{% extends 'quizzes/base.html' %}
+
+{% block title %}Проходження: {{ quiz.title }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>{{ quiz.title }}</h1>
+    <p>👤 Користувач: <strong>{{ username }}</strong></p>
+    
+    <form method="POST">
+        {% csrf_token %}
+        {% for question in questions %}
+        <div class="question-item">
+            <h3>{{ forloop.counter }}. {{ question.text }}</h3>
+            {% for answer in question.answers.all %}
+            <label class="answer-option">
+                <input type="radio" name="q_{{ question.id }}" value="{{ answer.id }}" required>
+                {{ answer.text }}
+            </label>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        
+        <button type="submit" class="submit-test-btn">✅ Завершити тест</button>
+    </form>
+</div>
+{% endblock %}
