@@ -1,0 +1,34 @@
+{% extends 'quizzes/base.html' %}
+
+{% block title %}Результат{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1 style="text-align: center;">Ваш результат</h1>
+    
+    <div class="result-score">
+        {{ result.score }} / {{ result.total }}
+    </div>
+    
+    <div class="result-percentage">
+        {{ result.percent }}%
+    </div>
+    
+    <div style="text-align: center; margin-top: 20px;">
+        {% if result.percent >= 80 %}
+            <p>Відмінно! Ви справжній експерт!</p>
+        {% elif result.percent >= 60 %}
+            <p>Добре! Але є куди рости.</p>
+        {% elif result.percent >= 40 %}
+            <p>Непогано, але варто повторити матеріал.</p>
+        {% else %}
+            <p>Спробуйте ще раз! З практикою прийде майстерність.</p>
+        {% endif %}
+    </div>
+    
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="{% url 'index' %}" class="btn btn-primary">До списку квізів</a>
+        <a href="{% url 'history' %}?username={{ result.username }}" class="btn btn-secondary">Моя історія</a>
+    </div>
+</div>
+{% endblock %}
