@@ -1,0 +1,16 @@
+{% extends 'quizzes/base.html' %}
+
+{% block content %}
+<div class="card">
+    <h1>Ваш результат</h1>
+    <h2>{{ result.score }} / {{ result.total }}</h2>
+    
+    <br>
+
+    <a href="{% url 'index' %}">До списку Квізів</a> 
+    <br>
+
+    <a href="{% url 'history' %}?username={{ result.username }}">Історія</a> ||
+    <a href="{% url 'history' %}">🌍 Загальна історія</a>
+</div>
+{% endblock %}
