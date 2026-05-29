@@ -5,8 +5,8 @@
 {% block content %}
 <div class="card">
     <h1>{{ quiz.title }}</h1>
-    <p>Користувач: <strong>{{ username }}</strong></p>
-    
+    <p>👤 Користувач: <strong>{{ username }}</strong></p>
+
     <form method="POST">
         {% csrf_token %}
         {% for question in questions %}
@@ -20,8 +20,8 @@
             {% endfor %}
         </div>
         {% endfor %}
-        
-        <button type="submit" class="btn btn-success">Завершити тест</button>
+
+        <button type="submit" class="submit-test-btn">✅ Завершити тест</button>
     </form>
 </div>
 {% endblock %}

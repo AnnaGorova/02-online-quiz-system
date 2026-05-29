@@ -6,17 +6,13 @@
 <div class="card">
     <h1>{{ quiz.title }}</h1>
     <p>{{ quiz.description }}</p>
-    <p>Всього питань: {{ quiz.questions_count }}</p>
-    
-    <form method="POST">
+    <p>📝 Всього питань: {{ quiz.questions_count }}</p>
+
+    <form method="POST" class="quiz-form">
         {% csrf_token %}
-        {% for field in form %}
-        <div class="form-group">
-            {{ field.label_tag }}
-            {{ field }}
-        </div>
-        {% endfor %}
-        <button type="submit" class="btn btn-success">Розпочати тестування</button>
+        <p>Ваше ім'я:</p>
+        <input type="text" name="username" class="quiz-input"  required>
+        <button type="submit" class="quiz-btn">Почати</button>
     </form>
 </div>
 {% endblock %}
