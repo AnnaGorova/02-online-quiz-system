@@ -1,0 +1,45 @@
+{% extends 'quizzes/base.html' %}
+ 
+{% block title %}Історія проходжень{% endblock %}
+ 
+{% block content %}
+<div class="card">
+    <h1>Історія проходжень</h1>
+   
+    <form method="GET">
+        <div class="form-group">
+            <label>Ім'я для пошуку:</label>
+            <input type="text" name="username" class="form-control"
+                   placeholder="Введіть ім'я" value="{{ search_username }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Пошук</button>
+    </form>
+   
+    {% if results %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Квіз</th>
+                    <th>Результат</th>
+                    <th>Відсоток</th>
+                    <th>Дата</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in results %}
+                <tr>
+                    <td>{{ r.quiz.title }}</td>
+                    <td>{{ r.score }}/{{ r.total }}</td>
+                    <td>{{ r.percent }}%</td>
+                    <td>{{ r.date|date:"d.m.Y H:i" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% elif search_username %}
+        <p>Немає результатів для "{{ search_username }}"</p>
+    {% else %}
+        <p>Введіть ім'я для пошуку</p>
+    {% endif %}
+</div>
+{% endblock %}
