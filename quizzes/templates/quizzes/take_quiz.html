@@ -6,7 +6,11 @@
 <div class="card">
     <h1>{{ quiz.title }}</h1>
     <p>👤 Користувач: <strong>{{ username }}</strong></p>
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> main
     <form method="POST">
         {% csrf_token %}
         {% for question in questions %}
@@ -20,7 +24,11 @@
             {% endfor %}
         </div>
         {% endfor %}
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> main
         <button type="submit" class="submit-test-btn">✅ Завершити тест</button>
     </form>
 </div>

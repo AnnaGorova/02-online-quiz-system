@@ -1,7 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from .models import Quiz, Question, Answer, QuizResult
+<<<<<<< HEAD
 from .forms import UsernameForm
+=======
+from .forms import  UsernameForm
+>>>>>>> main
 
 
 def index(request):
@@ -85,13 +89,27 @@ def history(request):
     """Історія проходжень - показує всі результати, з можливістю фільтрації"""
     # Беремо ВСІ результати, сортуємо від нових до старих
     results = QuizResult.objects.all().order_by('-date')
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> main
     # Фільтр пошуку (опціонально)
     username = request.GET.get('username', '')
     if username:
         results = results.filter(username__icontains=username)
+<<<<<<< HEAD
 
     return render(request, 'quizzes/history.html', {
         'results': results,
         'search_username': username
     })
+=======
+    
+    return render(request, 'quizzes/history.html', {
+        'results': results,
+        'search_username': username
+    })
+
+
+>>>>>>> main
